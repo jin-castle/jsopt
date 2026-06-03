@@ -1,0 +1,15 @@
+.omx/
+__pycache__/
+.pytest_cache/
+*.py[cod]
+
+.venv/
+venv/
+env/
+
+fdtdx_smoke_outputs/
+fdtdx_optimizer_outputs/
+
+.ipynb_checkpoints/
+.DS_Store
+Thumbs.db
