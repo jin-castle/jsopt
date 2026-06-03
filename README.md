@@ -17,3 +17,19 @@ Current implemented surface:
 - Colab optimizer visual smoke script that saves PNG outputs for initial/final
   design slices, design delta, gradients, objective history, field energy, and
   detector flux maps.
+
+## Colab install
+
+```python
+%pip install -U "fdtdx[cuda12]"
+%pip install -U git+https://github.com/jin-castle/jsopt.git
+```
+
+After restarting the runtime, verify imports:
+
+```python
+from jsopt import JSOptimizer, OptimizerConfig
+from jsopt.adapters import FDTDXObjectiveAdapter
+
+print("jsopt import ok")
+```
