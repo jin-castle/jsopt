@@ -20,6 +20,9 @@ test = [
   "pytest>=8",
 ]
 
+[tool.setuptools.packages.find]
+include = ["jsopt*"]
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 pythonpath = ["."]
