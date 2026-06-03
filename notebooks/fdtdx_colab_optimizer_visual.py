@@ -232,7 +232,7 @@ def main():
     # finite-difference flux direction, so the visual demo defaults to -1.
     gradient_scale = float(os.environ.get("JSOPT_GRADIENT_SCALE", "-1.0"))
     output_dir = Path(os.environ.get("JSOPT_OUTPUT_DIR", "fdtdx_optimizer_outputs"))
-    output_dir.mkdir(exist_ok=True)
+    output_dir.mkdir(parents=True, exist_ok=True)
 
     scene = build_scene(backend)
     adapter_config = FDTDXObjectiveAdapterConfig(design_name="Device", beta=1.0)

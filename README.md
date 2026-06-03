@@ -18,6 +18,14 @@ Current implemented surface:
   design slices, design delta, gradients, objective history, field energy, and
   detector flux maps.
 
+Committed execution artifacts:
+
+- `results/cpu/`: local CPU smoke outputs, PNGs, and run summary.
+- `results/colab_gpu/`: recorded Colab GPU logs and reproduction notes.
+- `notebooks/fdtdx_cpu_result.ipynb`: CPU result notebook with committed PNGs.
+- `notebooks/fdtdx_colab_gpu_result.ipynb`: Colab GPU result/reproduction
+  notebook.
+
 ## Colab install
 
 ```python

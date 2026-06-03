@@ -4,6 +4,7 @@
 # jax.default_backend() prints "gpu".
 
 import time
+import os
 from pathlib import Path
 
 import jax
@@ -14,8 +15,10 @@ import numpy as np
 
 
 print("devices:", jax.devices())
-print("backend:", jax.default_backend())
-if jax.default_backend() != "gpu":
+requested_backend = os.environ.get("JSOPT_BACKEND", "gpu").lower()
+print("default_backend:", jax.default_backend())
+print("requested_backend:", requested_backend)
+if requested_backend == "gpu" and jax.default_backend() != "gpu":
     raise RuntimeError("JAX is not using the GPU backend.")
 
 
@@ -23,7 +26,7 @@ key = jax.random.PRNGKey(7)
 config = fdtdx.SimulationConfig(
     time=3e-15,
     resolution=200e-9,
-    backend="gpu",
+    backend=requested_backend,
     dtype=jnp.float32,
     gradient_config=fdtdx.GradientConfig(method="checkpointed", num_checkpoints=2),
 )
@@ -188,8 +191,8 @@ def _plot_2d(arr, title, path, cmap="magma"):
     plt.close(fig)
 
 
-output_dir = Path("fdtdx_smoke_outputs")
-output_dir.mkdir(exist_ok=True)
+output_dir = Path(os.environ.get("JSOPT_OUTPUT_DIR", "fdtdx_smoke_outputs"))
+output_dir.mkdir(parents=True, exist_ok=True)
 
 # Re-run one forward pass with the same initial parameter point to collect fields
 # and detector maps for visualization. This keeps the gradient path above simple.
