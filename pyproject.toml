@@ -19,6 +19,10 @@ fdtdx = [
 test = [
   "pytest>=8",
 ]
+examples = [
+  "jax>=0.4",
+  "matplotlib>=3.8",
+]
 
 [tool.setuptools.packages.find]
 include = ["jsopt*"]

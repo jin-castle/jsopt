@@ -22,9 +22,13 @@ Committed execution artifacts:
 
 - `results/cpu/`: local CPU smoke outputs, PNGs, and run summary.
 - `results/colab_gpu/`: recorded Colab GPU logs and reproduction notes.
+- `results/gradient_check/`: Meep-introduction-style gradient and finite
+  difference comparison artifacts.
 - `notebooks/fdtdx_cpu_result.ipynb`: CPU result notebook with committed PNGs.
 - `notebooks/fdtdx_colab_gpu_result.ipynb`: Colab GPU result/reproduction
   notebook.
+- `notebooks/adjoint_intro_gradient_check.ipynb`: gradient output and finite
+  difference agreement notebook inspired by Meep's adjoint introduction.
 
 ## Colab install
 
