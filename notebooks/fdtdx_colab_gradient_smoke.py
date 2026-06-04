@@ -34,10 +34,14 @@ print("steps:", config.time_steps_total, "backend:", config.backend)
 
 
 volume = fdtdx.SimulationVolume(
-    partial_grid_shape=(8, 8, 8),
+    partial_grid_shape=(8, 8, 3),
     material=fdtdx.Material(permittivity=1.0),
 )
-bound_cfg = fdtdx.BoundaryConfig.from_uniform_bound(thickness=1, boundary_type="pml")
+bound_cfg = fdtdx.BoundaryConfig.from_uniform_bound(
+    thickness=1,
+    boundary_type="pml",
+    override_types={"min_z": "periodic", "max_z": "periodic"},
+)
 bound_dict, constraints = fdtdx.boundary_objects_from_config(bound_cfg, volume)
 object_list = [volume, *bound_dict.values()]
 
@@ -48,7 +52,7 @@ materials = {
 }
 device = fdtdx.Device(
     name="Device",
-    partial_grid_shape=(4, 4, 4),
+    partial_grid_shape=(4, 4, 1),
     materials=materials,
     param_transforms=[],
     partial_voxel_grid_shape=(1, 1, 1),
@@ -58,13 +62,13 @@ object_list.append(device)
 
 
 source = fdtdx.GaussianPlaneSource(
-    partial_grid_shape=(None, None, 1),
-    partial_real_shape=(1.0e-6, 1.0e-6, None),
-    fixed_E_polarization_vector=(1, 0, 0),
+    partial_grid_shape=(1, None, None),
+    partial_real_shape=(None, 1.0e-6, None),
+    fixed_E_polarization_vector=(0, 0, 1),
     wave_character=fdtdx.WaveCharacter(wavelength=1.55e-6),
     radius=0.4e-6,
     std=1 / 3,
-    direction="-",
+    direction="+",
 )
 constraints.append(
     source.place_relative_to(
@@ -72,17 +76,18 @@ constraints.append(
         axes=(0, 1, 2),
         own_positions=(0, 0, 0),
         other_positions=(0, 0, 0),
-        grid_margins=(0, 0, -2),
+        grid_margins=(-2, 0, 0),
     )
 )
 object_list.append(source)
 
 
 flux = fdtdx.PoyntingFluxDetector(
-    name="flux_z",
-    partial_grid_shape=(None, None, 1),
-    direction="-",
+    name="flux_y",
+    partial_grid_shape=(None, 1, None),
+    direction="+",
     reduce_volume=False,
+    fixed_propagation_axis=1,
     switch=fdtdx.OnOffSwitch(fixed_on_time_steps=[-1]),
 )
 constraints.append(
@@ -91,7 +96,7 @@ constraints.append(
         axes=(0, 1, 2),
         own_positions=(0, 0, 0),
         other_positions=(0, 0, 0),
-        grid_margins=(0, 0, 2),
+        grid_margins=(0, 2, 0),
     )
 )
 object_list.append(flux)
@@ -124,7 +129,7 @@ def objective(device_params):
         key=key,
         show_progress=False,
     )
-    return jnp.sum(out.detector_states["flux_z"]["poynting_flux"])
+    return jnp.sum(out.detector_states["flux_y"]["poynting_flux"])
 
 
 start = time.time()
@@ -145,6 +150,8 @@ def _to_numpy(arr):
 
 def _plot_center_slices(arr, title, path, cmap="viridis", symmetric=False):
     arr = np.squeeze(_to_numpy(arr))
+    if arr.ndim == 2:
+        arr = arr[:, :, np.newaxis]
     if arr.ndim != 3:
         raise ValueError(f"{title} needs a 3D array, got shape={arr.shape}")
 
@@ -215,7 +222,7 @@ field_energy = (
     jnp.sum(jnp.abs(out_vis.fields.E) ** 2, axis=0)
     + jnp.sum(jnp.abs(out_vis.fields.H) ** 2, axis=0)
 )
-flux_map = out_vis.detector_states["flux_z"]["poynting_flux"]
+flux_map = out_vis.detector_states["flux_y"]["poynting_flux"]
 
 png_paths = [
     output_dir / "01_device_parameter_slices.png",
@@ -226,7 +233,7 @@ png_paths = [
 
 _plot_center_slices(
     params0["Device"],
-    "Initial Device Parameter (0=air, 1=high-index)",
+    "Initial 2.5D Device Parameter (0=air, 1=high-index)",
     png_paths[0],
     cmap="viridis",
 )

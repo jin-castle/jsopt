@@ -1,9 +1,9 @@
 # CPU Execution Summary
 
 Generated locally on Windows with `JSOPT_BACKEND=cpu`.
-The committed FDTDX smoke scenes use a tiny 1-cell PML boundary so the examples
-stay lightweight while still matching the open-boundary structure expected for
-waveguide/FDTD checks.
+The committed FDTDX smoke scenes use a tiny quasi-2D/2.5D slab so the examples
+stay lightweight while matching the intended planar photonics workflow: x/y PML
+boundaries, periodic z, and a single-z-layer design parameter.
 
 ## FDTDX gradient smoke
 
@@ -24,12 +24,12 @@ default_backend: cpu
 requested_backend: cpu
 steps: 8 backend: cpu
 param_keys: dict_keys(['Device'])
-device_param_shape: (4, 4, 4)
-runtime_s: 20.841222286224365
-objective: -1.3647756702539482e-08
-gradient_shape: (4, 4, 4)
+device_param_shape: (4, 4, 1)
+runtime_s: 24.84052276611328
+objective: 6.0384240896382835e-06
+gradient_shape: (4, 4, 1)
 gradient_finite: True
-gradient_norm: 1.4629912392649658e-08
+gradient_norm: 2.4017538180487463e-06
 gradient_nonzero: True
 ```
 
@@ -58,16 +58,16 @@ Result:
 devices: [CpuDevice(id=0)]
 default_backend: cpu
 steps: 8 backend: cpu
-param_shape: (4, 4, 4)
+param_shape: (4, 4, 1)
 max_iters: 2 learning_rate: 0.02
 gradient_scale: 1.0
-runtime_s: 29.033720016479492
-initial_objective: -1.3647756702539482e-08
-final_evaluated_objective: -1.3386271646709247e-08
-best_objective: -1.3386271646709247e-08
-objective_improvement_from_initial: 2.6148505583023507e-10
-best_gradient_norm: 1.4301896765268666e-08
-final_design_delta_norm: 0.019797876127737472
+runtime_s: 36.40138053894043
+initial_objective: 6.0384240896382835e-06
+final_evaluated_objective: 6.12574876868166e-06
+best_objective: 6.12574876868166e-06
+objective_improvement_from_initial: 8.732467904337682e-08
+best_gradient_norm: 2.412875089123028e-06
+final_design_delta_norm: 0.07043667312496735
 optimization_ok: True
 ```
 
