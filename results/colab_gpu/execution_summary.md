@@ -5,6 +5,10 @@ machine used for this repository commit only has a CPU JAX backend, so GPU PNG
 generation should be reproduced in Colab with the notebook in
 `notebooks/fdtdx_colab_gpu_result.ipynb`.
 
+Note: current committed FDTDX smoke scenes use a tiny 1-cell PML boundary. The
+recorded GPU numeric outputs below were observed before the PML correction and
+should be regenerated in Colab for current PML-matched numbers.
+
 ## Environment check
 
 ```text

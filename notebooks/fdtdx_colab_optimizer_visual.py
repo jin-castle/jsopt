@@ -31,7 +31,7 @@ def build_scene(backend):
         partial_grid_shape=(8, 8, 8),
         material=fdtdx.Material(permittivity=1.0),
     )
-    bound_cfg = fdtdx.BoundaryConfig.from_uniform_bound(boundary_type="periodic")
+    bound_cfg = fdtdx.BoundaryConfig.from_uniform_bound(thickness=1, boundary_type="pml")
     bound_dict, constraints = fdtdx.boundary_objects_from_config(bound_cfg, volume)
     object_list = [volume, *bound_dict.values()]
 
@@ -252,9 +252,7 @@ def main():
     backend = _select_backend()
     max_iters = int(os.environ.get("JSOPT_MAX_ITERS", "4"))
     learning_rate = float(os.environ.get("JSOPT_LR", "0.02"))
-    # The tiny "-" flux-detector smoke has an adjoint sign opposite to the
-    # finite-difference flux direction, so the visual demo defaults to -1.
-    gradient_scale = float(os.environ.get("JSOPT_GRADIENT_SCALE", "-1.0"))
+    gradient_scale = float(os.environ.get("JSOPT_GRADIENT_SCALE", "1.0"))
     output_dir = Path(os.environ.get("JSOPT_OUTPUT_DIR", "fdtdx_optimizer_outputs"))
     output_dir.mkdir(parents=True, exist_ok=True)
 

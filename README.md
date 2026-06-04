@@ -13,7 +13,8 @@ Current implemented surface:
   `(value, gradient)`.
 - `FDTDXObjectiveAdapter`: wraps a placed FDTDX scene as a jsopt objective
   callback.
-- Colab smoke scripts for FDTDX GPU forward and gradient checks.
+- Colab smoke scripts for FDTDX GPU forward and gradient checks using a tiny
+  1-cell PML boundary.
 - Colab optimizer visual smoke script that saves FDTDX native setup/material
   plots plus PNG outputs for initial/final design slices, design delta,
   gradients, objective history, field energy, and detector flux maps.

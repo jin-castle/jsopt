@@ -23,7 +23,7 @@ def _build_tiny_flux_scene(backend="cpu"):
         partial_grid_shape=(8, 8, 8),
         material=fdtdx.Material(permittivity=1.0),
     )
-    bound_cfg = fdtdx.BoundaryConfig.from_uniform_bound(boundary_type="periodic")
+    bound_cfg = fdtdx.BoundaryConfig.from_uniform_bound(thickness=1, boundary_type="pml")
     bound_dict, constraints = fdtdx.boundary_objects_from_config(bound_cfg, volume)
     object_list = [volume, *bound_dict.values()]
 
