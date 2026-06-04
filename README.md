@@ -14,16 +14,16 @@ Current implemented surface:
 - `FDTDXObjectiveAdapter`: wraps a placed FDTDX scene as a jsopt objective
   callback.
 - Colab smoke scripts for FDTDX GPU forward and gradient checks.
-- Colab optimizer visual smoke script that saves PNG outputs for initial/final
-  design slices, design delta, gradients, objective history, field energy, and
-  detector flux maps.
+- Colab optimizer visual smoke script that saves FDTDX native setup/material
+  plots plus PNG outputs for initial/final design slices, design delta,
+  gradients, objective history, field energy, and detector flux maps.
 
 Committed execution artifacts:
 
 - `results/cpu/`: local CPU smoke outputs, PNGs, and run summary.
 - `results/colab_gpu/`: recorded Colab GPU logs and reproduction notes.
 - `results/gradient_check/`: Meep-introduction-style gradient and finite
-  difference comparison artifacts.
+  difference comparison artifacts, including a waveguide-bend structure diagram.
 - `notebooks/fdtdx_cpu_result.ipynb`: CPU result notebook with committed PNGs.
 - `notebooks/fdtdx_colab_gpu_result.ipynb`: Colab GPU result/reproduction
   notebook.

@@ -204,6 +204,30 @@ def _run_forward(scene, design, beta):
     return arrays
 
 
+def _save_fdtdx_scene_plots(scene, design, beta, setup_path, material_path):
+    setup_fig = fdtdx.plot_setup(
+        scene.config,
+        scene.objects,
+        filename=setup_path,
+    )
+    params = dict(scene.params)
+    params["Device"] = jnp.asarray(design)
+    material_arrays, _material_objects, _info = fdtdx.apply_params(
+        scene.arrays,
+        scene.objects,
+        params,
+        scene.key,
+        beta=beta,
+    )
+    material_fig = fdtdx.plot_material(
+        scene.config,
+        material_arrays,
+        filename=material_path,
+    )
+    plt.close(setup_fig)
+    plt.close(material_fig)
+
+
 def _scaled_gradient_callback(adapter, gradient_scale):
     def callback(design):
         value, gradient = adapter(design)
@@ -273,6 +297,8 @@ def main():
     flux_map = best_arrays.detector_states["flux_z"]["poynting_flux"]
 
     png_paths = [
+        output_dir / "00_fdtdx_plot_setup.png",
+        output_dir / "00_fdtdx_material_slices.png",
         output_dir / "01_initial_design_slices.png",
         output_dir / "02_final_design_slices.png",
         output_dir / "03_final_design_delta_slices.png",
@@ -283,44 +309,45 @@ def main():
         output_dir / "08_best_poynting_flux_detector_map.png",
     ]
 
+    _save_fdtdx_scene_plots(scene, initial_design, adapter_config.beta, png_paths[0], png_paths[1])
     _plot_center_slices(
         initial_design,
         "Initial Device Parameter (0=air, 1=high-index)",
-        png_paths[0],
+        png_paths[2],
         cmap="viridis",
     )
     _plot_center_slices(
         final_design,
         "Final Evaluated Device Parameter",
-        png_paths[1],
+        png_paths[3],
         cmap="viridis",
     )
     _plot_center_slices(
         design_delta,
         "Final Device Parameter Delta",
-        png_paths[2],
+        png_paths[4],
         cmap="coolwarm",
         symmetric=True,
     )
     _plot_center_slices(
         result.gradient,
         "Best Optimizer Gradient wrt Device Parameter",
-        png_paths[3],
+        png_paths[5],
         cmap="coolwarm",
         symmetric=True,
     )
-    _plot_objective_history(result.history, png_paths[4])
-    _plot_gradient_norm_history(result.history, png_paths[5])
+    _plot_objective_history(result.history, png_paths[6])
+    _plot_gradient_norm_history(result.history, png_paths[7])
     _plot_center_slices(
         field_energy,
         "Best Final Field Energy Density",
-        png_paths[6],
+        png_paths[8],
         cmap="inferno",
     )
     _plot_2d(
         flux_map,
         "Best Poynting Flux Detector Map",
-        png_paths[7],
+        png_paths[9],
         cmap="magma",
     )
 

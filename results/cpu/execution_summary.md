@@ -58,7 +58,7 @@ steps: 8 backend: cpu
 param_shape: (4, 4, 4)
 max_iters: 2 learning_rate: 0.02
 gradient_scale: -1.0
-runtime_s: 9.862805604934692
+runtime_s: 24.46246576309204
 initial_objective: 8.33450940262992e-06
 final_evaluated_objective: 8.516633897670545e-06
 best_objective: 8.516633897670545e-06
@@ -70,6 +70,8 @@ optimization_ok: True
 
 PNG outputs:
 
+- `results/cpu/fdtdx_optimizer_visual/00_fdtdx_plot_setup.png`
+- `results/cpu/fdtdx_optimizer_visual/00_fdtdx_material_slices.png`
 - `results/cpu/fdtdx_optimizer_visual/01_initial_design_slices.png`
 - `results/cpu/fdtdx_optimizer_visual/02_final_design_slices.png`
 - `results/cpu/fdtdx_optimizer_visual/03_final_design_delta_slices.png`

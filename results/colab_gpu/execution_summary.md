@@ -64,6 +64,8 @@ os.environ["JSOPT_OUTPUT_DIR"] = "results/colab_gpu/fdtdx_optimizer_visual"
 
 Expected PNG outputs after running the cell above:
 
+- `results/colab_gpu/fdtdx_optimizer_visual/00_fdtdx_plot_setup.png`
+- `results/colab_gpu/fdtdx_optimizer_visual/00_fdtdx_material_slices.png`
 - `results/colab_gpu/fdtdx_optimizer_visual/01_initial_design_slices.png`
 - `results/colab_gpu/fdtdx_optimizer_visual/02_final_design_slices.png`
 - `results/colab_gpu/fdtdx_optimizer_visual/03_final_design_delta_slices.png`
